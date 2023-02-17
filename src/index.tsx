@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SWRConfig } from 'swr';
@@ -9,16 +9,19 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 import { ErrorFallback } from './components/ErrorFallback';
 import { fetcher } from './utils/fetcher';
+import { Loading } from './components/Loading';
 
 ReactDOM.render(
-  <ErrorBoundary FallbackComponent={ErrorFallback}>
-    <React.StrictMode>
-      <SWRConfig value={{ fetcher }}>
-        <App />
-      </SWRConfig>
-    </React.StrictMode>
-  </ErrorBoundary>,
-  document.getElementById('root')
+	<ErrorBoundary FallbackComponent={ErrorFallback}>
+		<Suspense fallback={<Loading />}>
+			<React.StrictMode>
+				<SWRConfig value={{ fetcher, suspense: true }}>
+					<App />
+				</SWRConfig>
+			</React.StrictMode>
+		</Suspense>
+	</ErrorBoundary>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
