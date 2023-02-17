@@ -9,6 +9,7 @@ interface Props {
 	userId: number;
 	movieId: number;
 }
+
 export function UserDetails({ userId, movieId }: Props) {
 	return (
 		<div>
